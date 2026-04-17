@@ -4,6 +4,8 @@ WORKDIR /usr/src/app
 # Upgrade all OS packages to latest patched versions.
 RUN apk update && apk upgrade --no-cache
 
+
+
 # Context is ./services, so copy paths must be relative to the services/ directory.
 COPY fraud-detection-service/package*.json ./
 RUN (npm ci --omit=dev || npm install --omit=dev) && \
@@ -16,3 +18,5 @@ EXPOSE 3007
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
   CMD wget -qO- http://localhost:3007/health/startup || exit 1
 CMD ["node", "src/index.js"]
+
+
