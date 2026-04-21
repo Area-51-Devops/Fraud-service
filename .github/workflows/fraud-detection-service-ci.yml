@@ -23,6 +23,9 @@ jobs:
     defaults:
       run:
         working-directory: services/fraud-detection-service
+    
+    outputs:
+      image_tag: ${{ steps.image_tag.outputs.tag }}
 
     steps:
       - name: Checkout
