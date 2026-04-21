@@ -162,8 +162,8 @@ jobs:
 
   create-release:
     name: "Create GitHub Release"
-    needs: build
-    if: github.ref == 'refs/heads/main' && needs.build.result == 'success'
+    needs: [build]
+    if: always() && github.ref == 'refs/heads/main' && needs.build.result == 'success'
     runs-on: ubuntu-latest
 
     permissions:
@@ -177,11 +177,10 @@ jobs:
           name: Release ${{ needs.build.outputs.image_tag }}
           body: |
             Release of fraud-detection-service
-
             Version: ${{ needs.build.outputs.image_tag }}
             Image: ${{ secrets.DOCKER_USERNAME }}/fraud-detection-service:${{ needs.build.outputs.image_tag }}
           generate_release_notes: true
-          
+
   # ── JOB : NOTIFY ───────────────────────────────────────────────────────────
   notify:
     name: "Notify"
